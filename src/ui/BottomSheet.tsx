@@ -7,8 +7,9 @@ import { TouchableOpacity,Text } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from 'axios';
 import colors from '@utils/colors';
+import client from '@src/api/client';
 // import {handleUpload} from '../utils/cloudinary';
-import { data } from './CarouselCards';
+// import { data } from './CarouselCards';
 
 
 type BottomSheetComponentProps = {
@@ -31,17 +32,18 @@ const callSingleImageUsingGallery = () => {
     console.log(image.path);
     
     try {
-      const response = await axios.post('http://192.168.0.172:5789/auth/sign-in', 
+      const {data} = await client.post(
+        '/photo/imageUpload',
 
         {
-          'Content-Type': 'application/json',
-        },
-        {
-          email: 'rasimul29928@gmail.com',
-          password: 'Rasimul12345%',
-        },
+  "Content-Type": "multipart/form-data"
+}
+        // {
+        //   email: 'rasimul29928@gmail.com',
+        //   password: 'Rasimul12345%',
+        // },
       );
-      console.log(response);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +107,8 @@ const styles = StyleSheet.create({
   textSize:{
     fontSize:20,
     textAlign:'center',
-    padding:10
+    padding:10,
+    color:'black'
   }
 });
 

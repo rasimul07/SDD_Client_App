@@ -13,12 +13,12 @@ import {
 } from 'react-native';
 // import AuthNavigator from '@src/navigation/AuthNavigator';
 import UserNavigator from './navigation/UserNavigator';
+import Verification from '@views/auth/Verification';
 function App(): React.JSX.Element {
   return (
       <NavigationContainer>
         <UserNavigator></UserNavigator>
       </NavigationContainer>
-      // <Profile></Profile>
   );
 }
 

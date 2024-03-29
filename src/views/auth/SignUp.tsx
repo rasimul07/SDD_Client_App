@@ -16,6 +16,7 @@ import AuthFormContainer from '@components/AuthFormContainer';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthStackParamList } from '@src/@types/navigation';
 import client from '@src/api/client';
+import { FormikHelpers } from 'formik';
 
 const signupSchema = yup.object({
   name: yup
@@ -53,7 +54,11 @@ interface NewUser {
 const SignUp: FC<PropsType> = props => {
   const [sequreEntry, setSequreEntry] = useState(true);
  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
-const handleSubmit = async (values: NewUser) => {
+const handleSubmit = async (
+  values: NewUser,
+  action: FormikHelpers<NewUser>,
+) => {
+  action.setSubmitting(true)
   try {
     const {data} = await client.post('/auth/create', {
       ...values,
@@ -64,6 +69,7 @@ const handleSubmit = async (values: NewUser) => {
   } catch (error) {
     console.log('Sign up error: ', error);
   }
+  action.setSubmitting(false);
 };
   return (
     <Form

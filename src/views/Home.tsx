@@ -8,8 +8,8 @@ import MenuContent from '@ui/Menu';
 
 interface PropsType{};
 
-const Home = () => {
-    const [username, setUsername] = useState<string>('Md Rasimul Islam');
+const Home:FC<PropsType> = () => {
+    const [username, setUsername] = useState('Md Rasimul Islam');
 
   //menu
   const [visible, setVisible] = useState<boolean>(false);
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 10,
     paddingHorizontal: 3,
+    textAlign:'center',
   },
   tabScannerImage: {
     height: 30,

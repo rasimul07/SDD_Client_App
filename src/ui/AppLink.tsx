@@ -6,11 +6,14 @@ import colors from '@utils/colors';
 interface PropsType{
     title:string;
     onPress?():void;
+    active?:boolean;
 };
 
-const AppLink: FC<PropsType> = ({title,onPress}) => {
+const AppLink: FC<PropsType> = ({title,active=true,onPress}) => {
     return (
-      <Pressable style={styles.container} onPress={onPress}>
+      <Pressable
+        style={{opacity: active ? 1 : 0.4}}
+        onPress={active ? onPress : null}>
         <Text style={styles.title}>{title}</Text>
       </Pressable>
     );}

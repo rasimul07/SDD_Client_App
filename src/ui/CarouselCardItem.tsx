@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export const SLIDER_WIDTH = Dimensions.get('window').width;
+export const SLIDER_HEIGHT = Dimensions.get('window').height;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
+export const ITEM_HEIGHT = Math.round(SLIDER_HEIGHT * 0.7);
 
 interface ItemType {
   item: {

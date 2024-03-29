@@ -12,6 +12,8 @@ import AppLink from '@ui/AppLink';
 import AuthFormContainer from '@components/AuthFormContainer';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthStackParamList, UserStackParamList} from '@src/@types/navigation';
+import { FormikHelpers } from 'formik';
+import client from '@src/api/client';
 
 const signInSchema = yup.object({
   email: yup
@@ -31,16 +33,35 @@ const initialValues = {
   email: '',
   password: '',
 };
+interface SignInUserInfo {
+  email: string;
+  password: string;
+}
 const SignIn: FC<PropsType> = props => {
   const [sequreEntry, setSequreEntry] = useState(true);
   // const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
   const navigation = useNavigation<NavigationProp<UserStackParamList>>();
+    const handleSubmit = async (
+      values: SignInUserInfo,
+      action: FormikHelpers<SignInUserInfo>,
+    ) => {
+      //  console.log(values);
+      action.setSubmitting(true);
+      try {
+        const {data} = await client.post('/auth/sign-in', {
+          ...values,
+        });
+        // console.log(data);
+        navigation.navigate('Home');
+      } catch (error) {
+        console.log('Sign in error: ', error);
+      }
+      action.setSubmitting(false);
+    };
   return (
     <Form
       initialValues={initialValues}
-      onSubmit={values => {
-        console.log(values);
-      }}
+      onSubmit={handleSubmit}
       validationSchema={signInSchema}>
       <AuthFormContainer
         heading="Welcome Back!!"
