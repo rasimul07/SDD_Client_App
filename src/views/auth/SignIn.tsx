@@ -14,6 +14,11 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthStackParamList, UserStackParamList} from '@src/@types/navigation';
 import { FormikHelpers } from 'formik';
 import client from '@src/api/client';
+import { updateProfile, updateLoggedInState } from '@src/store/auth';
+import { saveToAsyncStorage, Keys } from '@utils/asyncStorage';
+import { useDispatch } from 'react-redux';
+import { catchAsyncError } from '@src/api/catchError';
+import { updateNotification } from '@src/store/notification';
 
 const signInSchema = yup.object({
   email: yup
@@ -40,7 +45,8 @@ interface SignInUserInfo {
 const SignIn: FC<PropsType> = props => {
   const [sequreEntry, setSequreEntry] = useState(true);
   // const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
-  const navigation = useNavigation<NavigationProp<UserStackParamList>>();
+  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
+  const dispatch = useDispatch();
     const handleSubmit = async (
       values: SignInUserInfo,
       action: FormikHelpers<SignInUserInfo>,
@@ -52,9 +58,13 @@ const SignIn: FC<PropsType> = props => {
           ...values,
         });
         // console.log(data);
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
+         await saveToAsyncStorage(Keys.AUTH_TOKEN, data.token);
+         dispatch(updateProfile(data.profile));
+         dispatch(updateLoggedInState(true));
       } catch (error) {
-        console.log('Sign in error: ', error);
+         const errorMessage = catchAsyncError(error);
+         dispatch(updateNotification({message: errorMessage, type: 'error'}));
       }
       action.setSubmitting(false);
     };
@@ -95,9 +105,6 @@ const SignIn: FC<PropsType> = props => {
             <AppLink
               title="Sign up"
               onPress={() => navigation.navigate('SignUp')}></AppLink>
-            <AppLink
-              title="Go to home"
-              onPress={() => navigation.navigate('Home')}></AppLink>
           </View>
         </View>
       </AuthFormContainer>

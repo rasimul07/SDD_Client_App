@@ -1,10 +1,12 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import authReducer from './auth';
 import notificationReducer from './notification'
+import dataUpdateReducer from './dataUpdate';
 
 const reducer = combineReducers({
     auth: authReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    dataUpdate: dataUpdateReducer
 })
 const store = configureStore({
     reducer

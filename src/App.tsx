@@ -14,11 +14,19 @@ import {
 // import AuthNavigator from '@src/navigation/AuthNavigator';
 import UserNavigator from './navigation/UserNavigator';
 import Verification from '@views/auth/Verification';
+import AppContainer from '@components/AppContainer';
+import AppNavigator from './navigation/AppNavigator';
+import { Provider } from 'react-redux';
+import store from './store';
+import Profile from '@views/Profile';
 function App(): React.JSX.Element {
   return (
-      <NavigationContainer>
-        <UserNavigator></UserNavigator>
-      </NavigationContainer>
+    <Provider store={store}>
+      <AppContainer>
+        <AppNavigator></AppNavigator>
+      </AppContainer>
+    </Provider>
+    // <Profile></Profile>
   );
 }
 

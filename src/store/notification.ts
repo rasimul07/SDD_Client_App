@@ -1,6 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from ".";
 
+
 type notificationType = 'error' | 'success'
 
 interface Notification {
@@ -25,12 +26,12 @@ const  slice = createSlice({
 })
 
 export const getNotificationState = createSelector(
-  (state: RootState) => state.notification,
-  notificationState => notificationState,
+//   (state: RootState) => state.notification,
+//   notificationState => notificationState,
 
   //or //you can write below
-//   (state: RootState) => state,
-//   ({notification}) => notification,
+  (state: RootState) => state,
+  ({notification}) => notification,
 );
 export const {updateNotification} = slice.actions;
 export default slice.reducer

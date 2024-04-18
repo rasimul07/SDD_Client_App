@@ -7,8 +7,6 @@ export interface UserProfile {
   email: string;
   verified: boolean;
   avatar?: string;
-  followers: number;
-  followings: number;
 }
 
 interface AuthState {

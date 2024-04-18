@@ -1,21 +1,27 @@
-import { FC, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {FC, useState} from 'react';
+import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import { Avatar } from '@rneui/themed';
+import {Avatar} from '@rneui/themed';
 import BottomSheetComponent from '@ui/BottomSheet';
 import CarouselCards from '@ui/CarouselCards';
 import MenuContent from '@ui/Menu';
+import {useSelector} from 'react-redux';
+import {getAuthState} from '@src/store/auth';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { UserStackParamList } from '@src/@types/navigation';
+import { Pressable } from 'react-native';
 
-interface PropsType{};
+interface PropsType {}
 
-const Home:FC<PropsType> = () => {
-    const [username, setUsername] = useState('Md Rasimul Islam');
+const Home: FC<PropsType> = () => {
+  const [username, setUsername] = useState('Md Rasimul Islam');
+  const {profile} = useSelector(getAuthState);
 
   //menu
   const [visible, setVisible] = useState<boolean>(false);
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
-
+ const navigation = useNavigation<NavigationProp<UserStackParamList>>();
   //bottom sheet
   const [isVisible1, setIsVisible1] = useState<boolean>(false);
   return (
@@ -24,13 +30,20 @@ const Home:FC<PropsType> = () => {
         <View style={styles.avham}>
           <View style={styles.textContainer}>
             <Text style={styles.textGreeding}>Hello</Text>
-            <Text style={styles.textName}>{username}👋</Text>
+            <Text style={styles.textName}>{profile?.name}👋</Text>
             <Text style={styles.textWords}>Lets defeat skin concerns</Text>
           </View>
-          <Avatar size={50} rounded source={require('../images/profile.png')} />
+          {profile?.avatar ? (
+            <Avatar size={50} rounded source={{uri: profile?.avatar}} />
+          ) : (
+            <Avatar
+              size={50}
+              rounded
+              title={profile?.name[0].toUpperCase()}
+              containerStyle={{backgroundColor: 'purple'}}
+            />
+          )}
         </View>
-
-       
       </View>
       <View style={styles.scanSection}>
         <View
@@ -72,14 +85,18 @@ const Home:FC<PropsType> = () => {
                 style={styles.tabScannerImage}></Image>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.profileContainer}>
+          <Pressable
+            onPress={() => navigation.navigate('Profile')}
+            style={styles.profileContainer}>
+            
             <Text style={styles.tabProfileText}>Profile</Text>
             <View style={styles.tabProfileImageOutside}>
               <Image
                 source={require('../images/user.png')}
                 style={styles.tabProfileImage}></Image>
             </View>
-          </TouchableOpacity>
+          </Pressable>
+          
         </View>
       </View>
       <BottomSheetComponent
@@ -87,7 +104,7 @@ const Home:FC<PropsType> = () => {
         setIsVisible1={setIsVisible1}></BottomSheetComponent>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   menuBtnContainer: {
@@ -136,7 +153,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 10,
     paddingHorizontal: 3,
-    textAlign:'center',
+    textAlign: 'center',
   },
   tabScannerImage: {
     height: 30,
@@ -202,26 +219,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#D7E1E3',
     height: '100%',
   },
-  inputStyle: {},
-  inputContainerStyle: {
-    padding: 5,
-    backgroundColor: '#FAF8F4',
-    elevation: 3,
-    shadowColor: 'grey',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-  },
-  containerStyle: {
-    backgroundColor: '#D7E1E3',
-    borderColor: 'transparent',
-  },
-  seachBarContainer: {
-    padding: 10,
-    // borderWidth: 2,
-    // borderColor: '#000',
-  },
   avham: {
     display: 'flex',
     flexDirection: 'row',
@@ -245,7 +242,7 @@ const styles = StyleSheet.create({
   },
   textWords: {
     // fontSize: 15,
-    // color: '#000',
+    color: '#000',
   },
 });
 

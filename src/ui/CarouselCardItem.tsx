@@ -1,4 +1,8 @@
-import React from 'react';
+import { catchAsyncError } from '@src/api/catchError';
+import client from '@src/api/client';
+import { updateNotification } from '@src/store/notification';
+import { Keys, getFromAsyncStorage } from '@utils/asyncStorage';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -7,7 +11,8 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { useDispatch } from 'react-redux';
 export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const SLIDER_HEIGHT = Dimensions.get('window').height;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -15,21 +20,36 @@ export const ITEM_HEIGHT = Math.round(SLIDER_HEIGHT * 0.7);
 
 interface ItemType {
   item: {
-    title: string;
-    body: string;
-    imgUrl: string;
+    publicId:string
+    url: string;
   };
   index: number;
 }
-const CarouselCardItem = ({item, index}: ItemType) => {
+const CarouselCardItem= ({item, index}: ItemType) => {
+  const handleDetele = async()=>{
+    try{
+      const token = await getFromAsyncStorage(Keys.AUTH_TOKEN);
+      const {data} = await client.delete('/photo/deleteImage',{
+        headers: {
+         Authorization: 'Bearer '+ token,
+         'Content-Type': 'application/json'
+        },
+        data:{
+          index:index
+        }
+      });
+    }catch(error){
+      console.log(error);
+    }
+  }
   return (
     <View style={styles.container} key={index}>
-      <Image source={{uri: item.imgUrl}} style={styles.image} />
+      <Image source={{uri: item.url}} style={styles.image} />
       <TouchableOpacity style={styles.resultBtn}>
         <Text style={styles.resultBtnText}>View Results</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.threeDot}>
-        <Icon name="dots-vertical" size={32} color={'#000'}></Icon>
+      <TouchableOpacity style={styles.threeDot} onPress={handleDetele}>
+        <Icon name="delete" size={25} color={'#fff'}></Icon>
       </TouchableOpacity>
     </View>
   );
@@ -39,11 +59,12 @@ const styles = StyleSheet.create({
   threeDot: {
     zIndex: 2,
     position: 'absolute',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     opacity:0.7,
     right: '5%',
     top: '3%',
     borderRadius: 20,
+    padding:3
   },
   resultBtn: {
     zIndex: 2,

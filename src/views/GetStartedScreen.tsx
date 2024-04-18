@@ -12,11 +12,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { months } from '@utils/helper';
 import { Double_arrow } from '@ui/logo';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UserStackParamList } from '@src/@types/navigation';
+import { AuthStackParamList, UserStackParamList } from '@src/@types/navigation';
 
 
 const GetStartedScreen = () => {
-    const navigation = useNavigation<NavigationProp<UserStackParamList>>();
+    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
