@@ -9,7 +9,7 @@ const LinearProgressAPI: React.FunctionComponent= () => {
         style={{
           margin: 10,
         }}>
-        <Text>uploading</Text>
+        <Text style={{color:'#000'}}>uploading</Text>
         <LinearProgress style={{marginVertical: 10}} color={colors.PRIMARY}/>
       </View>
     </View>

@@ -54,7 +54,7 @@ const VerticalDotMenu = ({visible, showMenu, hideMenu,index}: MenuContentProps) 
           <MaterialCommunityIcons
             name="dots-vertical"
             size={30}
-            onPress={showMenu}></MaterialCommunityIcons>
+            onPress={showMenu} color={'#000'}></MaterialCommunityIcons>
         }
         onRequestClose={hideMenu}>
         <MenuItem
