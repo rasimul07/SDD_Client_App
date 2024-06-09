@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 
 interface MenuContentProps {
@@ -18,14 +18,31 @@ const MenuContent= ({
     <View>
       <Menu
         visible={visible}
-        anchor={<Text onPress={showMenu} style={{fontSize:18}}>View All</Text>}
+        anchor={
+          <Text onPress={showMenu} style={{fontSize: 18}}>
+            View All
+          </Text>
+        }
         onRequestClose={hideMenu}>
-        <MenuItem onPress={hideMenu}>All</MenuItem>
-        <MenuItem onPress={hideMenu}>Pending</MenuItem>
-        <MenuItem onPress={hideMenu}>Completed</MenuItem>
+        <MenuItem onPress={hideMenu} textStyle={styles.textColor}>
+          All
+        </MenuItem>
+        <MenuItem onPress={hideMenu} textStyle={styles.textColor}>
+          Pending
+        </MenuItem>
+        <MenuItem onPress={hideMenu} textStyle={styles.textColor}>
+          Completed
+        </MenuItem>
       </Menu>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {},
+  textColor: {
+    color: '#000',
+  },
+});
 
 export default MenuContent;

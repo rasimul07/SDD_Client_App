@@ -4,7 +4,6 @@ import {StyleSheet} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {TouchableOpacity, Text} from 'react-native';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import axios from 'axios';
 import colors from '@utils/colors';
 import client from '@src/api/client';
 import * as yup from 'yup';
@@ -12,9 +11,10 @@ import {Keys, getFromAsyncStorage} from '@utils/asyncStorage';
 import {catchAsyncError} from '@src/api/catchError';
 import {updateNotification} from '@src/store/notification';
 import {useDispatch, useSelector} from 'react-redux';
-import { getDataUpdateState, updateDataState } from '@src/store/dataUpdate';
-// import {handleUpload} from '../utils/cloudinary';
-// import { data } from './CarouselCards';
+import { getDataUpdateState, updateBusyUploadState, updateDataState } from '@src/store/dataUpdate';
+import LinearProgressAPI from './LinearProgress';
+import { getAuthState, updateBusyState } from '@src/store/auth';
+
 
 type BottomSheetComponentProps = {
   isVisible1: boolean;
@@ -37,23 +37,31 @@ const fileInfoSchema = yup.object().shape({
 const BottomSheetComponent: React.FunctionComponent<
   BottomSheetComponentProps
 > = props => {
-  const [images, setImages] = useState<string[]>([]);
-  const [imageInfo, setImageInfo] = useState({...defaultForm});
   const dispatch = useDispatch();
-
+  const {isBusyUpload} = useSelector(getDataUpdateState)
   const callSingleImageUsingGallery = () => {
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 225,
+      height: 225,
       cropping: true,
+      mediaType:'photo',
+      cropperActiveWidgetColor:colors.PRIMARY,
+      cropperToolbarColor:colors.PRIMARY,
+      freeStyleCropEnabled:true,
+      cropperToolbarTitle:"PINCH TO ENLARGE TARGET",
+      // cropperCircleOverlay:true,
+      hideBottomControls:false,
+      enableRotationGesture:true,
+      includeBase64:true
     })
       .then(async image => {
         dispatch(updateDataState(true))
+        dispatch(updateBusyUploadState(true))
         try {
           const finalData = await fileInfoSchema.validate({
             file: {path: image.path},
           });
-          console.log(finalData);
+          // console.log(finalData);
           const formData = new FormData();
           formData.append('file', {
             uri: finalData.file.path,
@@ -69,27 +77,41 @@ const BottomSheetComponent: React.FunctionComponent<
               'Content-Type': 'multipart/form-data;',
             },
           });
+          props.setIsVisible1(false);
           // console.log(data);
           //  {"image": {"publicId": "ia5efa7bkcjilyukeccf", "url": "https://res.cloudinary.com/dm26zzeuq/image/upload/v1711874177/ia5efa7bkcjilyukeccf.jpg"}}
         } catch (error) {
           const errorMessage = catchAsyncError(error);
           dispatch(updateNotification({message: errorMessage, type: 'error'}));
         }
+        
         dispatch(updateDataState(false));
+        dispatch(updateBusyUploadState(false));
       })
   };
   const callSingleImageUsingCamera = () => {
     ImagePicker.openCamera({
-      width: 300,
-      height: 400,
+      mediaType: 'photo',
+      width: 225,
+      height: 225,
       cropping: true,
+      cropperActiveWidgetColor: colors.PRIMARY,
+      cropperToolbarColor: colors.PRIMARY,
+      freeStyleCropEnabled: true,
+      cropperToolbarTitle: 'PINCH TO ENLARGE TARGET',
+      // cropperCircleOverlay:true,
+      hideBottomControls: false,
+      enableRotationGesture: true,
+      includeBase64: true,
     }).then(async image => {
       try {
         dispatch(updateDataState(true));
+        dispatch(updateBusyUploadState(true));
         const finalData = await fileInfoSchema.validate({
           file: {path: image.path},
         });
-        console.log(finalData);
+        // console.log(finalData);
+
         const formData = new FormData();
         formData.append('file', {
           uri: finalData.file.path,
@@ -103,13 +125,15 @@ const BottomSheetComponent: React.FunctionComponent<
             'Content-Type': 'multipart/form-data;',
           },
         });
-        console.log(data);
+        // console.log(data);
+        props.setIsVisible1(false);
         //  {"image": {"publicId": "ia5efa7bkcjilyukeccf", "url": "https://res.cloudinary.com/dm26zzeuq/image/upload/v1711874177/ia5efa7bkcjilyukeccf.jpg"}}
       } catch (error) {
         const errorMessage = catchAsyncError(error);
         dispatch(updateNotification({message: errorMessage, type: 'error'}));
       }
       dispatch(updateDataState(false));
+      dispatch(updateBusyUploadState(false));
     });
   };
   return (
@@ -124,6 +148,7 @@ const BottomSheetComponent: React.FunctionComponent<
           style={styles.button}
           onPress={callSingleImageUsingGallery}>
           <Text style={styles.textSize}>Browse Photo</Text>
+          {isBusyUpload ? <LinearProgressAPI></LinearProgressAPI> : null}
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: colors.PRIMARY}]}

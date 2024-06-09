@@ -22,13 +22,14 @@ interface PropsType {}
 
 const AppNavigator: FC<PropsType> = props => {
   const {loggedIn, busy} = useSelector(getAuthState);
+  // console.log(loggedIn);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchAuthInfo = async () => {
       dispatch(updateBusyState(true));
       try {
         const token = await getFromAsyncStorage(Keys.AUTH_TOKEN);
-        console.log(token);
+        // console.log(token);
         if (!token) return dispatch(updateBusyState(false));
         const {data} = await client.get('/auth/is-auth', {
           headers: {
@@ -47,7 +48,7 @@ const AppNavigator: FC<PropsType> = props => {
       dispatch(updateBusyState(false));
     };
     fetchAuthInfo();
-  }, []);
+  }, [dispatch,loggedIn]);
   return (
     <NavigationContainer>
       {loggedIn ? (

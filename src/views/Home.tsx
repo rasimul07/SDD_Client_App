@@ -1,29 +1,38 @@
 import {FC, useState} from 'react';
-import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Avatar} from '@rneui/themed';
 import BottomSheetComponent from '@ui/BottomSheet';
-import CarouselCards from '@ui/CarouselCards';
 import MenuContent from '@ui/Menu';
 import {useSelector} from 'react-redux';
 import {getAuthState} from '@src/store/auth';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { UserStackParamList } from '@src/@types/navigation';
-import { Pressable } from 'react-native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {UserStackParamList} from '@src/@types/navigation';
+import {Pressable} from 'react-native';
+import ScanImageCards from '@ui/ScanImageCards';
+import colors from '@utils/colors';
 
 interface PropsType {}
 
 const Home: FC<PropsType> = () => {
-  const [username, setUsername] = useState('Md Rasimul Islam');
   const {profile} = useSelector(getAuthState);
 
   //menu
   const [visible, setVisible] = useState<boolean>(false);
-  const hideMenu = () => setVisible(false);
-  const showMenu = () => setVisible(true);
- const navigation = useNavigation<NavigationProp<UserStackParamList>>();
+   const hideMenu = () => setVisible(false);
+   const showMenu = () => setVisible(true);
+  const navigation = useNavigation<NavigationProp<UserStackParamList>>();
   //bottom sheet
   const [isVisible1, setIsVisible1] = useState<boolean>(false);
+
+  
   return (
     <View style={styles.homeScreenView}>
       <View>
@@ -33,16 +42,26 @@ const Home: FC<PropsType> = () => {
             <Text style={styles.textName}>{profile?.name}👋</Text>
             <Text style={styles.textWords}>Lets defeat skin concerns</Text>
           </View>
-          {profile?.avatar ? (
-            <Avatar size={50} rounded source={{uri: profile?.avatar}} />
-          ) : (
-            <Avatar
-              size={50}
-              rounded
-              title={profile?.name[0].toUpperCase()}
-              containerStyle={{backgroundColor: 'purple'}}
-            />
-          )}
+          <Pressable
+            onPress={() => {
+              navigation.navigate('Profile');
+            }}>
+            {profile?.avatar ? (
+              <Avatar
+                size={50}
+                containerStyle={{backgroundColor: colors.PRIMARY}}
+                rounded
+                source={{uri: profile?.avatar}}
+              />
+            ) : (
+              <Avatar
+                size={50}
+                containerStyle={{backgroundColor: colors.PRIMARY}}
+                rounded
+                title={profile?.name[0].toUpperCase()}
+              />
+            )}
+          </Pressable>
         </View>
       </View>
       <View style={styles.scanSection}>
@@ -53,7 +72,7 @@ const Home: FC<PropsType> = () => {
             justifyContent: 'space-between',
           }}>
           <Text style={styles.scanSectionText}>Your Scans</Text>
-          <TouchableOpacity onPress={showMenu} style={styles.menuBtnContainer}>
+          {/* <TouchableOpacity onPress={showMenu} style={styles.menuBtnContainer}>
             <MenuContent
               visible={visible}
               showMenu={showMenu}
@@ -61,21 +80,21 @@ const Home: FC<PropsType> = () => {
             <Image
               source={require('../images/down.png')}
               style={styles.downArrowStyle}></Image>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        <CarouselCards></CarouselCards>
+        <ScanImageCards></ScanImageCards>
       </View>
 
       <View style={styles.tabContainerOutside}>
         <View style={styles.tabContainer}>
-          <TouchableOpacity style={styles.chatBotContainer}>
+          {/* <TouchableOpacity style={styles.chatBotContainer}>
             <View style={styles.tabChatImageOutside}>
               <Image
                 source={require('../images/messenger.png')}
                 style={styles.tabChatImage}></Image>
             </View>
             <Text style={styles.tabChatText}>Chat </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.scanContainer}
             onPress={() => setIsVisible1(true)}>
@@ -85,18 +104,16 @@ const Home: FC<PropsType> = () => {
                 style={styles.tabScannerImage}></Image>
             </View>
           </TouchableOpacity>
-          <Pressable
+          {/* <Pressable
             onPress={() => navigation.navigate('Profile')}
             style={styles.profileContainer}>
-            
             <Text style={styles.tabProfileText}>Profile</Text>
             <View style={styles.tabProfileImageOutside}>
               <Image
                 source={require('../images/user.png')}
                 style={styles.tabProfileImage}></Image>
             </View>
-          </Pressable>
-          
+          </Pressable> */}
         </View>
       </View>
       <BottomSheetComponent

@@ -4,11 +4,13 @@ import {RootState} from '.';
 
 
 interface DataUpdateState{
-  isUpdate:boolean
+  isUpdate:boolean;
+  isBusyUpload:boolean;
 }
 
 const initialState: DataUpdateState = {
   isUpdate: false,
+  isBusyUpload:false
 };
 
 const slice = createSlice({
@@ -18,10 +20,13 @@ const slice = createSlice({
     updateDataState(dataUpdateState, {payload}: PayloadAction<boolean>) {
       dataUpdateState.isUpdate = payload;
     },
+    updateBusyUploadState(dataUpdateState, {payload}: PayloadAction<boolean>) {
+      dataUpdateState.isBusyUpload = payload;
+    },
   },
 });
 
-export const {updateDataState} = slice.actions;
+export const {updateDataState, updateBusyUploadState} = slice.actions;
 
 export const getDataUpdateState = createSelector(
   (state: RootState) => state,

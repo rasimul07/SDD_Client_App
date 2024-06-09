@@ -9,14 +9,24 @@ export interface UserProfile {
   avatar?: string;
 }
 
+export interface ImageUrlAndPredictionResult {
+  url: string;
+  prediction: string;
+  publicId:string
+}
+
 interface AuthState {
   profile: UserProfile | null;
+  arrayOfImageAndPrediction: [ImageUrlAndPredictionResult] | null;
+  predictionUpdatehappen:boolean;
   loggedIn: boolean;
-  busy:boolean;
+  busy: boolean;
 };
 
 const initialState: AuthState = {
   profile: null,
+  arrayOfImageAndPrediction:null,
+  predictionUpdatehappen:false,
   loggedIn: false,
   busy:false
 };
@@ -28,16 +38,34 @@ const slice = createSlice({
     updateProfile(authState, {payload}: PayloadAction<UserProfile | null>) {
       authState.profile = payload;
     },
-    updateLoggedInState(authState, {payload}) {
-        authState.loggedIn = payload
+    updateArrayOfImageAndPrediction(
+      authState,
+      {payload}: PayloadAction<[ImageUrlAndPredictionResult] | null>,
+    ) {
+      authState.arrayOfImageAndPrediction = payload;
     },
-    updateBusyState(authState, {payload}:PayloadAction<boolean>) {
-        authState.busy = payload
+    updatePredictionUpdatehappenState(
+      authState,
+      {payload}: PayloadAction<boolean>,
+    ) {
+      authState.predictionUpdatehappen = payload
+    },
+    updateLoggedInState(authState, {payload}) {
+      authState.loggedIn = payload;
+    },
+    updateBusyState(authState, {payload}: PayloadAction<boolean>) {
+      authState.busy = payload;
     },
   },
 });
 
-export const {updateLoggedInState,updateProfile,updateBusyState} = slice.actions;
+export const {
+  updateLoggedInState,
+  updateProfile,
+  updateBusyState,
+  updateArrayOfImageAndPrediction,
+  updatePredictionUpdatehappenState,
+} = slice.actions;
 
 export const getAuthState = createSelector(
   (state:RootState)=>state,

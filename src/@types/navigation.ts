@@ -18,4 +18,6 @@ interface NewUserResponse {
 export type UserStackParamList = {
   Home: undefined;
   Profile:undefined;
+  Result:{index:number};
+  Chat:undefined;
 };
