@@ -78,3 +78,28 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 # SDD_Client_App
+
+# 🚀 Project Title
+
+Welcome to the **Project Title** repository! This project is designed to provide an elegant solution for [your project's purpose]. Feel free to explore and contribute to the project.
+
+## 🌟 Features
+
+- Feature 1: scan image
+- Feature 2: 
+- Feature 3: 
+
+## 📦 Installation
+
+To get started with this project, follow the steps below:
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/your-repo.git
+```
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/your-repo.git
