@@ -83,14 +83,15 @@ const styles = StyleSheet.create({
   },
   Heading: {
     fontSize: 25,
-    color: colors.PRIMARY,
+    color: colors.OVERLAY,
     textAlign: 'center',
     marginTop:10,
     fontWeight: 'bold',
   },
   predictionText:{
     textAlign:'center',
-    fontSize:20
+    fontSize:20,
+    color: colors.PRIMARY
   }
 });
 export default Result;

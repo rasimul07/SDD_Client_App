@@ -72,29 +72,12 @@ const Home: FC<PropsType> = () => {
             justifyContent: 'space-between',
           }}>
           <Text style={styles.scanSectionText}>Your Scans</Text>
-          {/* <TouchableOpacity onPress={showMenu} style={styles.menuBtnContainer}>
-            <MenuContent
-              visible={visible}
-              showMenu={showMenu}
-              hideMenu={hideMenu}></MenuContent>
-            <Image
-              source={require('../images/down.png')}
-              style={styles.downArrowStyle}></Image>
-          </TouchableOpacity> */}
         </View>
         <ScanImageCards></ScanImageCards>
       </View>
 
       <View style={styles.tabContainerOutside}>
         <View style={styles.tabContainer}>
-          {/* <TouchableOpacity style={styles.chatBotContainer}>
-            <View style={styles.tabChatImageOutside}>
-              <Image
-                source={require('../images/messenger.png')}
-                style={styles.tabChatImage}></Image>
-            </View>
-            <Text style={styles.tabChatText}>Chat </Text>
-          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.scanContainer}
             onPress={() => setIsVisible1(true)}>
@@ -104,16 +87,6 @@ const Home: FC<PropsType> = () => {
                 style={styles.tabScannerImage}></Image>
             </View>
           </TouchableOpacity>
-          {/* <Pressable
-            onPress={() => navigation.navigate('Profile')}
-            style={styles.profileContainer}>
-            <Text style={styles.tabProfileText}>Profile</Text>
-            <View style={styles.tabProfileImageOutside}>
-              <Image
-                source={require('../images/user.png')}
-                style={styles.tabProfileImage}></Image>
-            </View>
-          </Pressable> */}
         </View>
       </View>
       <BottomSheetComponent
@@ -221,9 +194,7 @@ const styles = StyleSheet.create({
     width: '60%',
   },
   scanSection: {
-    width: '100%',
-    height: '40%',
-    // borderWidth: 2,
+    flex:1,
     borderColor: '#000',
   },
   scanSectionText: {
@@ -234,7 +205,7 @@ const styles = StyleSheet.create({
   },
   homeScreenView: {
     backgroundColor: '#D7E1E3',
-    height: '100%',
+    flex:1
   },
   avham: {
     display: 'flex',

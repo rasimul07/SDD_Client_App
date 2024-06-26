@@ -47,7 +47,7 @@ const VerticalDotMenu = ({visible, showMenu, hideMenu,index}: MenuContentProps) 
     navigation.navigate('Result', {index});
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Menu
         visible={visible}
         anchor={
@@ -85,7 +85,8 @@ const VerticalDotMenu = ({visible, showMenu, hideMenu,index}: MenuContentProps) 
   );
 };
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+  },
   textColor: {
     color: '#000',
   },

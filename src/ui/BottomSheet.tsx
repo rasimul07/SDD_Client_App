@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {BottomSheet, Button, ListItem} from '@rneui/themed';
-import {StyleSheet} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {TouchableOpacity, Text} from 'react-native';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import colors from '@utils/colors';
-import client from '@src/api/client';
+// import client, { createCancelToken } from '@src/api/client';
 import * as yup from 'yup';
 import {Keys, getFromAsyncStorage} from '@utils/asyncStorage';
 import {catchAsyncError} from '@src/api/catchError';
@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { getDataUpdateState, updateBusyUploadState, updateDataState } from '@src/store/dataUpdate';
 import LinearProgressAPI from './LinearProgress';
 import { getAuthState, updateBusyState } from '@src/store/auth';
+import client from '@src/api/client';
 
 
 type BottomSheetComponentProps = {
@@ -39,6 +40,7 @@ const BottomSheetComponent: React.FunctionComponent<
 > = props => {
   const dispatch = useDispatch();
   const {isBusyUpload} = useSelector(getDataUpdateState)
+  // const cancelTokenSource = createCancelToken();
   const callSingleImageUsingGallery = () => {
     ImagePicker.openPicker({
       width: 225,
@@ -70,12 +72,13 @@ const BottomSheetComponent: React.FunctionComponent<
           });
 
           const token = await getFromAsyncStorage(Keys.AUTH_TOKEN);
-          console.log(token);
+          // console.log(token);
           const {data} = await client.post('/photo/imageUpload', formData, {
             headers: {
               Authorization: 'Bearer ' + token,
               'Content-Type': 'multipart/form-data;',
             },
+            // cancelToken: cancelTokenSource.token,
           });
           props.setIsVisible1(false);
           // console.log(data);
@@ -137,26 +140,24 @@ const BottomSheetComponent: React.FunctionComponent<
     });
   };
   return (
-    <SafeAreaProvider>
-      <BottomSheet modalProps={{}} isVisible={props.isVisible1}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={callSingleImageUsingCamera}>
-          <Text style={styles.textSize}>Using Camera</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={callSingleImageUsingGallery}>
-          <Text style={styles.textSize}>Browse Photo</Text>
-          {isBusyUpload ? <LinearProgressAPI></LinearProgressAPI> : null}
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: colors.PRIMARY}]}
-          onPress={() => props.setIsVisible1(false)}>
+    <BottomSheet modalProps={{}} isVisible={props.isVisible1}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={callSingleImageUsingCamera}>
+        <Text style={styles.textSize}>Using Camera</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={callSingleImageUsingGallery}>
+        <Text style={styles.textSize}>Browse Photo</Text>
+        {isBusyUpload ? <LinearProgressAPI></LinearProgressAPI> : null}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {backgroundColor: colors.PRIMARY}]}
+        onPress={() => props.setIsVisible1(false)}>
           <Text style={styles.textSize}>Cancel</Text>
-        </TouchableOpacity>
-      </BottomSheet>
-    </SafeAreaProvider>
+      </TouchableOpacity>
+    </BottomSheet>
   );
 };
 

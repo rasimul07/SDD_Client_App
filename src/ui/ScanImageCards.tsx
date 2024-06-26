@@ -6,6 +6,7 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -40,81 +41,19 @@ function ScanImageCards() {
     };
     getImages();
   }, [isUpdate, predictionUpdatehappen]);
-  // console.log(arrayOfImageAndPrediction);
- 
   return (
-    <View style={{height: 800}}>
-      <ScrollView style={styles.scrollView}>
+    <SafeAreaView style={{flex:1}}>
+      <ScrollView style={styles.scrollView} scrollEnabled overScrollMode='always'>
         {arrayOfImageAndPrediction?.map((item, index) => {
           return <ScanImageCard item={item} key={index} index={index}></ScanImageCard>;
         })}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  scrollView:{
-    
-  },
-  cardItemStyle: {
-    flex: 1,
-    borderRadius: 50,
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  delete: {
-    zIndex: 2,
-    position: 'absolute',
-    // backgroundColor: '#fff',
-    opacity: 0.9,
-    right: '10%',
-    top: '6%',
-    borderRadius: 20,
-    padding: 4,
-  },
-  resultBtn: {
-    zIndex: 3,
-    position: 'absolute',
-    top: '10%',
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    left: '32%',
-    padding: 3,
-  },
-  resultBtnText: {
-    fontSize: 22,
-    margin: 7,
-    paddingHorizontal: 5,
-    color: '#000',
-  },
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    paddingBottom: 40,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  image: {
-    height: 300,
-  },
-  header: {
-    color: '#222',
-    fontSize: 28,
-    fontWeight: 'bold',
-    paddingLeft: 20,
-    paddingTop: 20,
-  },
-  body: {
-    color: '#222',
-    fontSize: 18,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
+  scrollView: {
+    flexDirection:'column',
+  }
 });
 export default ScanImageCards;
