@@ -77,17 +77,17 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-# SDD_Client_App
 
-# 🚀 Project Title
 
-Welcome to the **Project Title** repository! This project is designed to provide an elegant solution for [your project's purpose]. Feel free to explore and contribute to the project.
+# 🚀 AI SKINIFI : Skin disease detection and classificaition using machine learining and mobile app
+
+Welcome to the **AI SKINIFI** repository! This project is designed to provide an elegant solution for [AI skin disease solution]. Feel free to explore and contribute to the project.
 
 ## 🌟 Features
 
-- Feature 1: scan image
-- Feature 2: 
-- Feature 3: 
+- Feature 1: Account management
+- Feature 2: Able to scan image
+- Feature 3: result of scan image
 
 ## 📦 Installation
 
@@ -115,4 +115,6 @@ To start the project, run the following command
 ```bash
 npm start
 ```
+
+Install 
 
