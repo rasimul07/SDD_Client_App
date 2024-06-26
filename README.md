@@ -96,10 +96,23 @@ To get started with this project, follow the steps below:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/your-repo.git
+git clone https://github.com/rasimul07/SDD_Client_App.git
 ```
 
-1. **Clone the repository**
+2. **Navigate to the project directory**
 
 ```bash
-git clone https://github.com/yourusername/your-repo.git
+cd SDD_Clint_App
+```
+
+3. **Install dependencies**
+```bash
+npm install
+```
+
+4. **Usage**
+To start the project, run the following command
+```bash
+npm start
+```
+
