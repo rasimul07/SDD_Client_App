@@ -116,5 +116,8 @@ To start the project, run the following command
 npm start
 ```
 
-Install 
+Install backend for the application , checkout below repository
+[Backend Express.Js repository](https://github.com/rasimul07/Skin_Disease_Detector_Backend)
+
+
 
